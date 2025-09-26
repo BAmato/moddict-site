@@ -1,36 +1,228 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Timeline • Moddict</title>
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="/assets/css/style.css" />
 <style>
-  .rail { display:flex; gap:16px; overflow-x:auto; padding:16px 24px 32px; scroll-snap-type:x mandatory; }
-  .year { min-width:320px; scroll-snap-align:start; background:var(--card); border:1px solid #232733; border-radius:16px; padding:16px; }
-  .year img { width:100%; height:auto; border-radius:10px; }
-  .year h3 { margin:8px 0 4px; }
-  .muted { color: var(--muted); margin:0; }
-  .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
-</style>
-</head><body>
-<header class="nav">
-  <a class="brand" href="/">Moddict</a>
-  <nav>
-    <a href="/timeline/">Timeline</a><a href="/projects/">Projects</a>
-    <a href="/media/">Media</a><a href="/docs/">Docs</a><a href="/about.html">About</a>
-  </nav>
-</header>
+  /* --- Page-local styles for the timeline --- */
+  .wrap { max-width:1200px; margin:0 auto; padding:12px 24px 24px; }
 
-<div class="topbar"><h1>Timeline</h1><p class="muted">Swipe/scroll →</p></div>
-<section class="rail">
-  <article class="year">
-    <img src="https://placehold.co/800x500/png" alt="2015 highlight">
-    <h3>2015 — First YouTube Channel</h3>
-    <p class="muted">Learned editing, first 1k views. 2015-03.</p>
-  </article>
-  <article class="year">
-    <img src="https://placehold.co/800x500/png" alt="2016 highlight">
-    <h3>2016 — Robotics Club</h3>
-    <p class="muted">Built line follower; first competition.</p>
-  </article>
-  <!-- duplicate article blocks per year -->
-</section>
-</body></html>
+  /* Year navbar */
+  .yearbar {
+    position: sticky; top:58px; z-index:5;
+    display:flex; gap:8px; align-items:center; overflow-x:auto;
+    padding:10px 0; margin:6px 0 8px; background: rgba(11,12,16,.7);
+    backdrop-filter: blur(6px); border-bottom:1px solid var(--line);
+  }
+  .chip {
+    white-space:nowrap; padding:8px 12px; border:1px solid #232733;
+    border-radius:999px; background:#14151a; color:var(--text);
+    font-weight:600; opacity:.85; transition:transform .1s ease;
+  }
+  .chip:hover { text-decoration:none; transform: translateY(-1px); }
+  .chip.active { background: var(--brand); color:#0b0c10; border-color: var(--brand); }
+
+  /* Rail */
+  .rail-wrap { position: relative; }
+  .rail {
+    display:flex; gap:16px; overflow-x:auto; padding:16px 0 8px;
+    scroll-snap-type:x mandatory; scroll-padding-left:24px;
+  }
+  .card-year {
+    min-width: 360px; max-width: 420px; scroll-snap-align: start;
+    background: var(--card); border:1px solid #232733; border-radius:16px;
+    padding:14px; flex: 0 0 auto;
+  }
+  .card-year img { width:100%; height:auto; border-radius:12px; display:block; }
+  .card-year h3 { margin:10px 0 4px; }
+  .muted { color: var(--muted); margin:0 0 8px; }
+  .desc { margin:0; }
+
+  /* Arrows */
+  .arrow {
+    position:absolute; top:50%; transform: translateY(-50%);
+    width:42px; height:42px; display:grid; place-items:center;
+    border-radius:999px; border:1px solid #232733; background:#14151a;
+    cursor:pointer; user-select:none; z-index:4; opacity:.9;
+  }
+  .arrow:disabled { opacity:.35; cursor:not-allowed; }
+  .arrow.left { left:-2px; }
+  .arrow.right { right:-2px; }
+
+  /* Small screens */
+  @media (max-width: 600px){
+    .card-year { min-width: 80vw; }
+    .arrow { display:none; } /* touch devices will swipe */
+  }
+</style>
+</head>
+<body>
+  <!-- NAV (same as other pages) -->
+  <header class="nav">
+    <a class="brand" href="/">Moddict</a>
+    <nav>
+      <a href="/timeline/">Timeline</a>
+      <a href="/projects/">Projects</a>
+      <a href="/media/">Media</a>
+      <a href="/docs/">Docs</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <h1 style="margin:10px 0 4px">Timeline</h1>
+    <p class="muted" style="margin:0 0 8px">Scroll horizontally or use ◀ ▶. Click a year chip to jump.</p>
+
+    <!-- Year chips (auto-filled) -->
+    <div class="yearbar" id="yearbar" aria-label="Years"></div>
+
+    <!-- Horizontal rail with arrow controls -->
+    <div class="rail-wrap">
+      <button class="arrow left" id="prevBtn" aria-label="Previous year">◀</button>
+      <div class="rail" id="rail" tabindex="0" aria-label="Timeline"></div>
+      <button class="arrow right" id="nextBtn" aria-label="Next year">▶</button>
+    </div>
+  </div>
+
+<script>
+/* ===== Editable data: add your years here ===== */
+const timeline = [
+  {
+    year: 2015,
+    title: "First YouTube Channel",
+    date: "2015-03",
+    img: "/timeline/2015/first-channel.webp", // put your image here
+    alt: "2015 channel thumbnail",
+    desc: "Learned editing, upload cadence, first 1k views.",
+    links: [{text:"Watch clip", url:"https://youtu.be/VIDEOID", ext:true}]
+  },
+  {
+    year: 2016,
+    title: "Living on Mars",
+    date: "2016-10",
+    img: "/timeline/2016/robotics.webp",
+    alt: "Line follower bot",
+    desc: "Built a line follower and competed for the first time."
+  },
+  {
+    year: 2019,
+    title: "Alegro Engineering",
+    date: "2019-08",
+    img: "/timeline/2019/campus.webp",
+    alt: "Campus photo",
+    desc: "Began electrical engineering; fell in love with hardware validation."
+  },
+  {
+    year: 2023,
+    title: "Semiconductor fabrication",
+    date: "2023-04",
+    img: "/timeline/2023/vintage-vision.webp",
+    alt: "Dashboard retrofit",
+    desc: "Raspberry Pi dashboard retrofit with RPM, signals, GPS.",
+    links: [{text:"Project", url:"/projects/"}]
+  },
+  {
+    year: 2024,
+    title: "Neuromorphic Rover (DVS)",
+    date: "2024-11",
+    img: "/timeline/2024/dvs.webp",
+    alt: "DVS rover",
+    desc: "Event-based vision vs RGB baseline; ultra-low power pipeline.",
+    links: [{text:"Demo", url:"/media/"}]
+  },
+  {
+    year: 2025,
+    title: "REU Manuscripts",
+    date: "2025-06",
+    img: "/timeline/2025/reu.webp",
+    alt: "Research poster",
+    desc: "Compiled REU results; drafts and figures.",
+    links: [{text:"Docs", url:"/docs/"}]
+  }
+];
+
+/* ===== Render cards ===== */
+const rail = document.getElementById('rail');
+const bar  = document.getElementById('yearbar');
+
+function makeCard(item) {
+  const a = document.createElement('article');
+  a.className = 'card-year';
+  a.id = 'y' + item.year;
+
+  a.innerHTML = `
+    <img loading="lazy" src="${item.img || 'https://placehold.co/900x560/png'}" alt="${item.alt || item.title}">
+    <h3>${item.year} — ${item.title}</h3>
+    <p class="muted">${item.date || ''}</p>
+    <p class="desc">${item.desc || ''}</p>
+    ${Array.isArray(item.links) ? `<p style="margin-top:8px">${item.links.map(l => `<a class="link" ${l.ext?'target="_blank" rel="noopener"':''} href="${l.url}">${l.text} →</a>`).join(' &nbsp; ')}</p>` : ''}
+  `;
+  return a;
+}
+
+function makeChip(year) {
+  const chip = document.createElement('a');
+  chip.className = 'chip';
+  chip.href = '#y' + year;
+  chip.textContent = year;
+  chip.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('y' + year)?.scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'});
+  });
+  return chip;
+}
+
+timeline.sort((a,b)=>a.year-b.year).forEach(item => {
+  rail.appendChild(makeCard(item));
+  bar.appendChild(makeChip(item.year));
+});
+
+/* ===== Arrow controls & keyboard ===== */
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+function cardWidth() {
+  // approximate step = card width + gap (16)
+  const first = rail.querySelector('.card-year');
+  return first ? first.getBoundingClientRect().width + 16 : 380;
+}
+function snapLeft()  { rail.scrollBy({left: -cardWidth(), behavior:'smooth'}); }
+function snapRight() { rail.scrollBy({left:  cardWidth(), behavior:'smooth'}); }
+
+prevBtn.onclick = snapLeft;
+nextBtn.onclick = snapRight;
+
+rail.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft') { e.preventDefault(); snapLeft(); }
+  if (e.key === 'ArrowRight'){ e.preventDefault(); snapRight(); }
+});
+
+/* ===== Highlight active year chip ===== */
+const chips = [...bar.querySelectorAll('.chip')];
+const cards = [...rail.querySelectorAll('.card-year')];
+
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+      const y = entry.target.id.replace('y','');
+      chips.forEach(c => c.classList.toggle('active', c.textContent === y));
+      // also update hash without jank
+      history.replaceState(null, '', '#y'+y);
+    }
+  });
+}, {root: rail, threshold:[0.6]});
+
+cards.forEach(c => io.observe(c));
+
+/* ===== If URL has #y2024 etc., jump there ===== */
+window.addEventListener('load', ()=>{
+  const hash = location.hash;
+  if (hash && document.querySelector(hash)) {
+    document.querySelector(hash).scrollIntoView({behavior:'instant', inline:'start'});
+  }
+});
+</script>
+</body>
+</html>
