@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Timeline • Moddict</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+  .rail { display:flex; gap:16px; overflow-x:auto; padding:16px 24px 32px; scroll-snap-type:x mandatory; }
+  .year { min-width:320px; scroll-snap-align:start; background:var(--card); border:1px solid #232733; border-radius:16px; padding:16px; }
+  .year img { width:100%; height:auto; border-radius:10px; }
+  .year h3 { margin:8px 0 4px; }
+  .muted { color: var(--muted); margin:0; }
+  .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+</style>
+</head><body>
+<header class="nav">
+  <a class="brand" href="/">Moddict</a>
+  <nav>
+    <a href="/timeline/">Timeline</a><a href="/projects/">Projects</a>
+    <a href="/media/">Media</a><a href="/docs/">Docs</a><a href="/about.html">About</a>
+  </nav>
+</header>
+
+<div class="topbar"><h1>Timeline</h1><p class="muted">Swipe/scroll →</p></div>
+<section class="rail">
+  <article class="year">
+    <img src="https://placehold.co/800x500/png" alt="2015 highlight">
+    <h3>2015 — First YouTube Channel</h3>
+    <p class="muted">Learned editing, first 1k views. 2015-03.</p>
+  </article>
+  <article class="year">
+    <img src="https://placehold.co/800x500/png" alt="2016 highlight">
+    <h3>2016 — Robotics Club</h3>
+    <p class="muted">Built line follower; first competition.</p>
+  </article>
+  <!-- duplicate article blocks per year -->
+</section>
+</body></html>
