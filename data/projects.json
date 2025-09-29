@@ -1,18 +1,18 @@
 [
   {
     "id": "speck-dvs-rover",
-    "name": "Speck DVS Rover",
+    "name": "Neuromorphic Rover",
     "category": "neuromorphic-computing",
-    "date": "2025-02-01",
+    "date": "2025-02-01 — Current",
     "status": "In Progress",
     "tags": ["Neuromorphic", "DVS", "Jetson Nano", "Low Power"],
-    "summary": "Autonomous rover comparing DVS vs. RGB power and latency.",
+    "summary": "Autonomous rover comparing DVS vs. RGB camers for energy improvement in battery constrained robotics.",
     "links": {
       "docs": "/docs/neuromorphic/speck-rover.pdf",
       "page": "/projects/neuromorphic/speck-dvs-rover.html"
     },
     "folder": "/neuromorphic-computing/speck-dvs-rover",
-    "hero": "/images/neuromorphic/speck-dvs-rover/hero.jpg"
+    "hero": "/images/neuro/speckDVScam.PNG"
   },
 
   {
@@ -29,6 +29,7 @@
     "folder": "/rocket-team/autonomous-ground-station",
     "hero": "/images/groundStation/gndStation.jpeg"
   },
+
   {
     "id": "imagineering-show-control",
     "name": "Walt Disney Imagineering Show Control Hardware",
