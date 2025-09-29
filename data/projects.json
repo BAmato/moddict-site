@@ -20,7 +20,7 @@
     "name": "Autonomous Ground Station (30k Rocket)",
     "category": "ground-station",
     "date": "2024-09-05 — Current",
-    "status": "Active",
+    "status": "In Progress",
     "tags": ["Avionics", "XBee Transciever", "ISM Communications", "Control Systems"],
     "summary": "Autonomous ground station for long range data acquisition of real-time telemetry + control logic.",
     "links": {
