@@ -29,5 +29,49 @@ a:hover { text-decoration: underline; }
 .card p { margin:0 0 10px; color:var(--muted); }
 .card .link { font-weight:600; }
 
+/* PROJECT CARDS */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.project-card .project-hero {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.project-card .date {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.project-card .tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.project-card .tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--brand-ghost);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.project-card .links {
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.project-card .status {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 /* FOOTER */
 .footer { border-top:1px solid #1f232b; padding:18px 24px; text-align:center; color:var(--muted); }
+

@@ -1,0 +1,46 @@
+[
+  {
+    "id": "speck-dvs-rover",
+    "name": "Speck DVS Rover",
+    "category": "neuromorphic-computing",
+    "date": "2025-02-01",
+    "status": "In Progress",
+    "tags": ["Neuromorphic", "DVS", "Jetson Nano", "Low Power"],
+    "summary": "Autonomous rover comparing DVS vs. RGB power and latency.",
+    "links": {
+      "docs": "/docs/neuromorphic/speck-rover.pdf",
+      "page": "/projects/neuromorphic/speck-dvs-rover.html"
+    },
+    "folder": "/neuromorphic-computing/speck-dvs-rover",
+    "hero": "/images/neuromorphic/speck-dvs-rover/hero.jpg"
+  },
+
+  {
+    "id": "autonomous-ground-station",
+    "name": "Autonomous Ground Station (30k Rocket)",
+    "category": "ground-station",
+    "date": "2024-09-05 — Current",
+    "status": "Active",
+    "tags": ["Avionics", "XBee Transciever", "ISM Communications", "Control Systems"],
+    "summary": "Autonomous ground station for long range data acquisition of real-time telemetry + control logic.",
+    "links": {
+      "page": "/projects/rocket-team/autonomous-ground-station.html"
+    },
+    "folder": "/rocket-team/autonomous-ground-station",
+    "hero": "/images/groundStation/gndStation.jpeg"
+  },
+  {
+    "id": "imagineering-show-control",
+    "name": "Walt Disney Imagineering Show Control Hardware",
+    "category": "imagineering",
+    "date": "2025-05-20 — 2025-09-20",
+    "status": "Archive",
+    "tags": ["Show Control", "Animatronics", "Industrial IO"],
+    "summary": "Worked with show control modules: safety interlocks, sequencers, IO.",
+    "links": {
+      "page": "/projects/imagineering/show-control.html"
+    },
+    "folder": "/imagineering/show-control",
+    "hero": "/images/wdi/wdi_headshot.jpeg"
+  }
+]
