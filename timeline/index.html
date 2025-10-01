@@ -50,6 +50,15 @@
   .muted { color: var(--muted); margin:0 0 8px; }
   .desc { margin:0; }
 
+  /* Alegro Card */
+  #y2017 img {
+  max-height: 220px;   /* adjust to taste */
+  width: auto;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+}
+
   /* Arrows */
   .arrow {
     position:absolute; top:50%; transform: translateY(-50%);
@@ -111,35 +120,55 @@ const timeline = [
   {
     year: 2016,
     title: "Living on Mars",
-    date: "2016-10",
-    img: "/timeline/2016/robotics.webp",
-    alt: "Line follower bot",
-    desc: "Built a line follower and competed for the first time."
+    date: "2016-03",
+    img: "/timeline/2016/livingOnMars1.png",
+    alt: "STEM Competition",
+    desc: "Designed and prototyped a self-sustained Martian base for future austronauts to inhabit.",
+    links: [{text:"Check out 3D file viewer", url:"https://autode.sk/4gPLxmp", ext:true}]  
   },
   {
-    year: 2019,
+    year: 2017,
     title: "Alegro Engineering",
-    date: "2019-08",
-    img: "/timeline/2019/campus.webp",
-    alt: "Campus photo",
-    desc: "Began electrical engineering; fell in love with hardware validation."
+    date: "2017-09",
+    img: "/timeline/2017/alegro-COLOR.jpg",
+    alt: "First job",
+    desc: "Began my first job as a CAD/Revit drafter in a local mechanical engineering firm."
   },
   {
     year: 2023,
     title: "Semiconductor fabrication",
-    date: "2023-04",
-    img: "/timeline/2023/vintage-vision.webp",
-    alt: "Dashboard retrofit",
-    desc: "Raspberry Pi dashboard retrofit with RPM, signals, GPS.",
-    links: [{text:"Project", url:"/projects/"}]
+    date: "Summer 2023",
+    img: "/timeline/2023/daytonLabPicture.jpeg",
+    alt: "Semiconductor Fabrication",
+    desc: "First REU at Dayton University. Worked in the cleanroom performing thin-film semiconductor fabrication via physical vapor deposition. ",
+    links: [{text:"Check out article", url:"https://udayton.edu/blogs/engineering/2023/23-08-07-reu-student-recap.php", ext:true}, 
+    {text:"Project", url:"/projects/"}]
   },
   {
     year: 2024,
-    title: "Neuromorphic Rover (DVS)",
-    date: "2024-11",
-    img: "/timeline/2024/dvs.webp",
+    title: "Batteryless Machine Learning ",
+    date: "Summer 2024",
+    img: "/timeline/2024/reuCloseUp.jpeg",
+    alt: "Machine Learning",
+    desc: "ECE Next REU at UT Austin. Worked with ML on the edge for human activity recognition using batteryless devices.",
+    links: [{text:"Demo", url:"/media/"}]
+  },
+  {
+    year: 2025,
+    title: "Walt Disney Imagineering",
+    date: "Summer 2025",
+    img: "/timeline/2025/wdiCloseUp.jpeg",
     alt: "DVS rover",
     desc: "Event-based vision vs RGB baseline; ultra-low power pipeline.",
+    links: [{text:"Demo", url:"/media/"}]
+  },
+  {
+    year: 2025,
+    title: "Neuromorphic Rover",
+    date: "2025-01 — Current",
+    img: "/timeline/2025/speckCloseUp.jpeg",
+    alt: "DVS rover",
+    desc: "Event-based vision vs RGB baseline; ultra-low power navigation pipeline for autonomous warehouse rovers.",
     links: [{text:"Demo", url:"/media/"}]
   },
   {
@@ -167,7 +196,7 @@ function makeCard(item) {
     <h3>${item.year} — ${item.title}</h3>
     <p class="muted">${item.date || ''}</p>
     <p class="desc">${item.desc || ''}</p>
-    ${Array.isArray(item.links) ? `<p style="margin-top:8px">${item.links.map(l => `<a class="link" ${l.ext?'target="_blank" rel="noopener"':''} href="${l.url}">${l.text} →</a>`).join(' &nbsp; ')}</p>` : ''}
+    ${Array.isArray(item.links) ? `<p style="margin-top:8px">${item.links.map(l => `<a class="link" ${l.ext?'target="_blank" rel="noopener"':''} href="${l.url}">${l.text} →</a>`).join(' <br> ')}</p>` : ''}
   `;
   return a;
 }

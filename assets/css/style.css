@@ -29,6 +29,12 @@ a:hover { text-decoration: underline; }
 .card p { margin:0 0 10px; color:var(--muted); }
 .card .link { font-weight:600; }
 
+/* INTRO */
+.intro {
+  font-size: 1.25rem; /* ~20px */
+  margin: 12px 0;
+}
+
 /* PROJECT CARDS */
 .project-card {
   display: flex;
